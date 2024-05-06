@@ -1,31 +1,106 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="en"
+      layout:decorate="~{layout}"
+>
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" th:href="@{css/style.css}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body>
-<form class="px-4 py-3" id="login" th:action="@{/auth}" method="post">
-    <div class="form-group">
-        <label for="DropdownFormUsername">Username</label>
-        <input type="text" class="form-control " name="username" id="DropdownFormUsername" placeholder="Enter username">
+<body class="d-flex flex-column h-100" layout:fragment="body">
+<div class="main">
+    <div class="col-md-12 col-sm-12">
+        <div th:if="${param.error}" class="alert alert-success mx-auto">
+            Invalid username or password
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success mx-auto">
+            You have been logged out.
+        </div>
+        <div class="login-form">
+            <form class="d-grid gap-2 w-25 mt-3 mx-auto" method="POST" role="form" th:action="@{/auth}">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input
+                            id="username"
+                            type="text"
+                            class="form-control"
+                            placeholder="Username"
+                            name="username"
+                    >
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input
+                            id="password"
+                            type="password"
+                            class="form-control"
+                            placeholder="Password"
+                            name="password"
+                    >
+                </div>
+                <button type="submit" value="Log In" class="btn btn-secondary">Login</button>
+                <a th:href="@{/register}" type="button" class="btn btn-black">
+                    Dont have an account? Register.
+                </a>
+            </form>
+            <div class="err-message mx-auto">
+                <p th:text="${login_msg}"></p>
+            </div>
+        </div>
+
     </div>
-    <div class="form-group">
-        <label for="DropdownFormPassword1">Password</label>
-        <input type="password" class="form-control" name="password" id="DropdownFormPassword1" placeholder="Password">
-    </div>
-    <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="dropdownCheck">
-        <label class="form-check-label" for="dropdownCheck">
-            Remember me
-        </label>
-    </div>
-    <button type="submit" class="btn btn-primary">Sign in</button>
-</form>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</div>
+
+<!--<div class="container">-->
+<!--    <div class="register">-->
+<!--        <div th:if="${param.error}" class="alert alert-success">-->
+<!--            invalid username or password-->
+<!--        </div>-->
+<!--        <div th:if="${param.logout}" class="alert alert-success">-->
+<!--            You have been logged out.-->
+<!--        </div>-->
+<!--        <h1>Login</h1>-->
+<!--        <h2>to get started</h2>-->
+<!--        <form class="register-form" th:action="@{/login}" th:method="POST">-->
+
+<!--            <input type="text"-->
+<!--                   class="form-control"-->
+<!--                   name="userEmail"-->
+<!--                   id="userEmail"-->
+<!--                   placeholder="Email" />-->
+
+<!--            <input type="password"-->
+<!--                   class="form-control"-->
+<!--                   name="password"-->
+<!--                   id="password"-->
+<!--                   placeholder="Password" />-->
+
+<!--            <p id="forgot">Forgot Password?</p>-->
+<!--            <input type="submit" class="form-control" name="sub" value="Continue" />-->
+<!--        </form>-->
+
+<!--        <div class="already">-->
+<!--            <p>New User? <b><a th:href="@{/register}">Register</a></b></p>-->
+<!--        </div>-->
+<!--        <div class="err-message">-->
+<!--            <p th:text="${login_msg}"></p>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--</div>-->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>

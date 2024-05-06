@@ -1,35 +1,135 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="en"
+      layout:decorate="~{layout}"
+>
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Register</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-<body>
-<div class="container">
+<body layout:fragment="body">
 
-    <div class="register">
-        <img th:src="@{img/login_register/user.png}"
-             class="user" >
-        <form th:action="@{/register}" th:method="POST" th:object="${user}">
-            <label for="username">Username</label>
-            <input type="text" id="username" th:field="*{name}" placeholder="Enter name">
+<div class="main">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="login-form">
+            <form class="d-grid gap-3 w-25 mt-3 mx-auto" method="post" role="form" th:action="@{/register}" th:object="${user}">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Email"
+                            th:field="*{login}"
+                    />
+                </div>
 
-            <label for="email">Email</label>
-            <input type="text" id="email" th:field="*{email}" placeholder="Enter email">
-
-            <label for="password">Password</label>
-            <input type="password" id="password" th:field="*{password}" placeholder="Enter password">
-            <label for="confirm-password">Confirm password</label>
-            <input type="password" id="confirm-password" th:field="*{matchingPassword}" placeholder="Enter password">
-            <span class="pass-icon" id="pass-icon">
-                <img th:src="@{img/login_register/show.png}"
-                     style="width: 20px; height: 20px">
-            </span>
-            <button type="submit">SignUp</button>
-        </form>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Username"
+                            th:field="*{username}"
+                    />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input
+                            type="password"
+                            class="form-control"
+                            placeholder="Password"
+                            th:field="*{password}"
+                    />
+                </div>
+                <div class="form-group">
+                    <label>Repeat password</label>
+                    <input class="form-control"
+                           type="password"
+                           name="repeatPass"
+                           id="repeatPass"
+                           th:field="*{repeatPassword}"
+                           placeholder="Repeat password"/>
+                </div>
+                <div class="form-group">
+                    <span>
+                        <label>
+                            <input type="checkbox" value="checkbox" th:field="*{checkboxValue}"
+                                   name="checkbox"/> Agree to Our terms and Conditions
+                        </label>
+                    </span>
+                </div>
+                <button type="submit" class="btn btn-group-sm btn-secondary">Register</button>
+                <a th:href="@{/login}" type="button" class="btn btn-black">
+                    Already registered? Login.
+                </a>
+            </form>
+            <div class="err-message mx-auto">
+                <p th:text="${register_msg}"></p>
+            </div>
+        </div>
     </div>
 </div>
+<!--<div class="container">-->
+<!--    <div class="register">-->
+<!--        <div th:if="${param.error}" class="alert alert-success">-->
+<!--            <p th:text="${register_msg}"></p>-->
+<!--        </div>-->
+<!--        <h1>Signup</h1>-->
+<!--        <h2>to get started</h2>-->
+<!--        <form role="form" class="register-form" th:action="@{/register}" th:object="${user}" th:method="POST">-->
+
+<!--            <input type="text"-->
+<!--                   class="form-control"-->
+<!--                   name="userName"-->
+<!--                   id="userName"-->
+<!--                   th:field="*{username}"-->
+<!--                   placeholder="Username"/>-->
+<!--            <p th:if="${#fields.hasErrors('username')}" class="text-danger" th:errors="*{username}"></p>-->
+
+<!--            <input-->
+<!--                    type="text"-->
+<!--                    class="form-control"-->
+<!--                    name="userEmail"-->
+<!--                    id="userEmail"-->
+<!--                    th:field="*{login}"-->
+<!--                    placeholder="Email"/>-->
+<!--            <p th:if="${#fields.hasErrors('login')}" class="text-danger" th:errors="*{login}"></p>-->
+
+<!--            <input type="password"-->
+<!--                   class="form-control"-->
+<!--                   id="userPass"-->
+<!--                   th:field="*{password}"-->
+<!--                   name="userPass"-->
+<!--                   placeholder="Password"/>-->
+<!--            <p th:if="${#fields.hasErrors('password')}" class="text-danger" th:errors="*{password}"></p>-->
+
+<!--            <input class="form-control"-->
+<!--                   type="password"-->
+<!--                   name="repeatPass"-->
+<!--                   id="repeatPass"-->
+<!--                   th:field="*{repeatPassword}"-->
+<!--                   placeholder="Repeat password"/>-->
+<!--            <p th:if="${#fields.hasErrors('repeatPassword')}" class="text-danger" th:errors="*{repeatPassword}"></p>-->
+
+<!--            <span>-->
+<!--                    <label>-->
+<!--                        <input type="checkbox" value="checkbox" th:field="*{checkboxValue}" name="checkbox"/> Agree to Our terms and Conditions-->
+<!--                    </label>-->
+<!--                </span>-->
+<!--            <input type="submit" class="form-control" name="register" value="Continue"/>-->
+<!--        </form>-->
+
+<!--        <div class="already">-->
+<!--            <p>Already registered? <b><a th:href="@{/login}">Login</a></b></p>-->
+<!--        </div>-->
+<!--        <div class="err-message">-->
+<!--            <p th:text="${register_msg}"></p>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 <script th:src="@{/js/script.js}"></script>
 </body>
 </html>

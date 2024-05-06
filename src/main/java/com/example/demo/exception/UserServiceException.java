@@ -1,18 +1,18 @@
 package com.example.demo.exception;
 
-public class CommandException extends Exception {
-    public CommandException() {
+public class UserServiceException extends Exception {
+    public UserServiceException() {
     }
 
-    public CommandException(String message) {
+    public UserServiceException(String message) {
         super(message);
     }
 
-    public CommandException(String message, Throwable cause) {
+    public UserServiceException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public CommandException(Throwable cause) {
+    public UserServiceException(Throwable cause) {
         super(cause);
     }
 }

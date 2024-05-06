@@ -1,16 +1,11 @@
 package com.example.demo.validator;
 
 
-import com.example.demo.entity.User;
-import com.example.demo.exception.ServiceException;
 import com.example.demo.exception.ValidatorException;
-import com.example.demo.service.CommonService;
-import com.example.demo.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
 public class UsernameValidator {

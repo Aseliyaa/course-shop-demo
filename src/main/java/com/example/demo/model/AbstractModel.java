@@ -1,2 +1,4 @@
-package com.example.demo.model;public class AbstractModel {
+package com.example.demo.model;
+
+public class AbstractModel {
 }

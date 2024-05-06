@@ -1,2 +1,4 @@
-package com.example.demo.service;public interface RoleService {
+package com.example.demo.service;
+
+public interface RoleService {
 }

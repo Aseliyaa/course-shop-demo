@@ -1,18 +1,18 @@
 package com.example.demo.exception;
 
-public class ServiceException extends Exception {
-    public ServiceException() {
+public class CourseServiceException extends Exception {
+    public CourseServiceException() {
     }
 
-    public ServiceException(String message) {
+    public CourseServiceException(String message) {
         super(message);
     }
 
-    public ServiceException(String message, Throwable cause) {
+    public CourseServiceException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public ServiceException(Throwable cause) {
+    public CourseServiceException(Throwable cause) {
         super(cause);
     }
 }

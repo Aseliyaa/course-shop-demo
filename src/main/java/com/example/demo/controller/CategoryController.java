@@ -4,7 +4,6 @@ import com.example.demo.exception.CategoryServiceException;
 import com.example.demo.model.Category;
 import com.example.demo.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-public class CategoriesController {
+public class CategoryController {
 
     private final CategoryService categoryService;
 
     @Autowired
-    public CategoriesController(CategoryService categoryService) {
+    public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
@@ -46,6 +45,7 @@ public class CategoriesController {
         try {
             Category category = categoryService.findCategoryById(categoryId);
             model.addAttribute("courses", category.getCourses());
+            model.addAttribute("category", category);
             return "category-details";
         } catch (Exception e) {
             throw new CategoryServiceException(e);

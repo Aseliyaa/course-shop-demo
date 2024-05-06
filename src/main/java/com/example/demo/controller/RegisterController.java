@@ -1,16 +1,21 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.User;
-import com.example.demo.exception.ServiceException;
+
+import com.example.demo.exception.CourseServiceException;
+import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import com.example.demo.service.impl.UserServiceImpl;
-import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -21,34 +26,28 @@ public class RegisterController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public ModelAndView regForm(){
-        return new ModelAndView("register", "command", new User());
+    @GetMapping(value = "/register")
+    public String regForm(Model model){
+        User user = new User();
+        model.addAttribute("user", user);
+        model.addAttribute("register_msg", UserServiceImpl.getErrorMessage());
+        return "/register";
     }
-    @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
-    public String regSubmit(HttpServletRequest request,
-                            ModelMap model) throws ServiceException {
 
-        String userName = request.getParameter("userName");
-        String userEmail = request.getParameter("userEmail");
-        String userPass = request.getParameter("userPass");
-        String repeatPass = request.getParameter("repeatPass");
-        String checkboxValue = request.getParameter("checkbox");
 
-        User user = User.builder()
-                .userName(userName)
-                .login(userEmail)
-                .password(userPass)
-                .repeatPassword(repeatPass)
-                .checkboxValue(checkboxValue)
-                .build();
-
+    @PostMapping(value = "/register")
+    public String regSubmit(@ModelAttribute("user") User user,
+                            Model model) {
         try {
-            userService.register(user);
-            return "index"; // Перенаправляем пользователя на другую страницу после успешной регистрации
+            if(userService.register(user)){
+                return "redirect:/categories?success";
+            } else {
+                model.addAttribute("register_msg", UserServiceImpl.getErrorMessage());
+                return "/register";
+            }
+
         } catch (Exception e) {
-            model.addAttribute("register_msg", UserServiceImpl.getErrorMessage()); // Если возникла ошибка, передаем сообщение об ошибке на страницу
-            return "index"; // Возвращаем пользователя на страницу регистрации
+            throw new RuntimeException(e);
         }
     }
 }
