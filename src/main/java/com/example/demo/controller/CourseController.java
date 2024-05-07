@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.exception.CategoryServiceException;
 import com.example.demo.exception.CourseServiceException;
 import com.example.demo.model.Category;
+import com.example.demo.model.ConsultationForm;
 import com.example.demo.model.Course;
 import com.example.demo.security.SecurityUtil;
 import com.example.demo.service.CategoryService;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -30,11 +32,13 @@ public class CourseController {
     }
     @GetMapping("/categories/{categoryId}/{courseId}")
     public String coursePage(@PathVariable("courseId") long courseId,
-                             Model model,
-                             @PathVariable long categoryId) throws CourseServiceException, CategoryServiceException {
+                             Model model, @PathVariable long categoryId) throws CourseServiceException, CategoryServiceException {
+        ConsultationForm form = new ConsultationForm();
         Category category = categoryService.findCategoryById(categoryId);
         Course course = courseService.findCourseById(courseId);
         model.addAttribute("course", course);
+        model.addAttribute("category", category);
+        model.addAttribute("consultationForm", form);
         return "/course-details";
     }
 
@@ -46,6 +50,21 @@ public class CourseController {
             return "redirect:/categories";
         }
         courseService.addCourseToUserCart(courseId, authUsername);
-        return "/cart";
+        return "redirect:/cart";
+    }
+
+    @PostMapping("/categories/{categoryId}/{courseId}")
+    public String submitConsultationForm(@ModelAttribute("consultationForm") ConsultationForm form,
+                                         Model model,
+                                         @PathVariable("courseId") long courseId,
+                                         @PathVariable("categoryId") long categoryId) throws CourseServiceException {
+        String authUsername = SecurityUtil.getSessionUser();
+
+        if (authUsername != null) {
+            courseService.addFormToUser(authUsername, courseId, form);
+            return "redirect:/categories/" + categoryId + "/" + courseId + "?success";
+
+        }
+        return "redirect:/categories/" + categoryId + "/" + courseId + "?fails";
     }
 }

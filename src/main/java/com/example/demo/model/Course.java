@@ -31,4 +31,7 @@ public class Course extends AbstractModel {
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<ConsultationForm> consultationForms;
 }

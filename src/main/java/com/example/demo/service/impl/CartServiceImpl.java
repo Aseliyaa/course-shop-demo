@@ -40,8 +40,11 @@ public class CartServiceImpl implements CartService {
     @Override
     public void addCourse(Course course, Cart cart) throws CartServiceException {
         Cart updatedCart = cartRepository.findById(cart.getId()).get();
-        updatedCart.getCourses().add(course);
-        cartRepository.save(updatedCart);
+        List<Course> courses = updatedCart.getCourses();
+        if(!courses.contains(course)) {
+            updatedCart.getCourses().add(course);
+            cartRepository.save(updatedCart);
+        }
     }
 
     @Override

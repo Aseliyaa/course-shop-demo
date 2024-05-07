@@ -3,16 +3,14 @@ package com.example.demo.service.impl;
 import com.example.demo.exception.CartServiceException;
 import com.example.demo.exception.CommonServiceException;
 import com.example.demo.exception.CourseServiceException;
-import com.example.demo.exception.UserServiceException;
 import com.example.demo.model.Cart;
+import com.example.demo.model.ConsultationForm;
 import com.example.demo.model.Course;
 import com.example.demo.model.User;
+import com.example.demo.repository.ConsultationFormRepository;
 import com.example.demo.repository.CourseRepository;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.CartService;
-import com.example.demo.service.CommonService;
-import com.example.demo.service.CourseService;
-import com.example.demo.service.UserService;
+import com.example.demo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,12 +23,15 @@ public class CourseServiceImpl extends CommonService<Course> implements CourseSe
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
     private final CartService cartService;
+    private final ConsultationFormRepository formRepository;
 
     @Autowired
-    public CourseServiceImpl(CourseRepository courseRepository, UserRepository userRepository, CartService cartService) {
+    public CourseServiceImpl(CourseRepository courseRepository, UserRepository userRepository, CartService cartService, ConsultationFormRepository formRepository) {
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
         this.cartService = cartService;
+
+        this.formRepository = formRepository;
     }
 
     @Override
@@ -78,6 +79,20 @@ public class CourseServiceImpl extends CommonService<Course> implements CourseSe
             }
         } catch (CartServiceException e) {
             throw new CourseServiceException(e);
+        }
+    }
+
+    @Override
+    public void addFormToUser(String login, long courseId, ConsultationForm form) throws CourseServiceException {
+        User user = userRepository.findByLogin(login);
+        Course course = courseRepository.findById(courseId).get();
+
+        if (user != null) {
+            form.setUser(user);
+            form.setCourse(course);
+            formRepository.save(form);
+        } else {
+            throw new UsernameNotFoundException("User not found");
         }
     }
 }

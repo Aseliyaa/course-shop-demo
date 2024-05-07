@@ -14,37 +14,38 @@
 </head>
 <body class="d-flex flex-column">
 <main class="flex-shrink-0" layout:fragment="body">
-    <section class="py-5 bg-light" id="scroll-target">
+    <section class="py-1 bg-light" id="scroll-target">
         <div class="container px-5 my-5">
             <div class="alert alert-danger" th:if="${cart == null}">
                 <p th:text="${fails}"></p>
             </div>
+
             <div th:unless="${cart == null}">
-                <div class="row gx-5 align-items-center" th:each="course, iterStat: ${cart.getCourses()}">
+                <div class="row justify-content-center">
+                    <div class="text-center">
+                        <h2 class="fw-bolder">Favorites</h2>
+                    </div>
+                </div>
+                <div class="row justify-content-center align-items-center py-3
+                    px-1 my-3 shadow border-0 rounded" th:each="course, iterStat: ${cart.getCourses()}"
+                     th:classappend="${iterStat.index % 2 == 0} ? 'bg-white' : 'bg-black'">
                     <div class="col-lg-6"
                          th:classappend="${iterStat.index % 2 == 0} ? 'order-first order-lg-last' : ''">
-                        <img class="img-fluid rounded mb-5 mb-lg-0" th:src="${course.imgUrl}" alt="..."/>
+                        <img class="img-fluid rounded my-0" th:src="${course.imgUrl}" alt="..."/>
                     </div>
                     <div class="col-lg-6">
-                        <h2 class="fw-bolder" th:text="${course.courseName}"></h2>
+                        <a class="text-decoration-none"
+                           th:href="@{/categories/{categoryId}/{courseId}(categoryId=${course.getCategories().getFirst().getId()},courseId=${course.id})}">
+                            <h2 class="fw-bolder"
+                                th:classappend="${iterStat.index % 2 == 0} ? 'text-black' : 'text-white'"
+                                th:text="${course.courseName}"></h2>
+                        </a>
                         <p class="lead fw-normal text-muted mb-0" th:text="'Price: ' + ${course.price} + '$'"></p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!--    &lt;!&ndash; About section two&ndash;&gt;-->
-    <!--    <section class="py-5">-->
-    <!--        <div class="container px-5 my-5">-->
-    <!--            <div class="row gx-5 align-items-center">-->
-    <!--                <div class="col-lg-6 order-first order-lg-last"><img class="img-fluid rounded mb-5 mb-lg-0" src="https://dummyimage.com/600x400/343a40/6c757d" alt="..." /></div>-->
-    <!--                <div class="col-lg-6">-->
-    <!--                    <h2 class="fw-bolder">Growth &amp; beyond</h2>-->
-    <!--                    <p class="lead fw-normal text-muted mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto est, ut esse a labore aliquam beatae expedita. Blanditiis impedit numquam libero molestiae et fugit cupiditate, quibusdam expedita, maiores eaque quisquam.</p>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </section>-->
 </main>
 
 <!-- Bootstrap core JS-->
