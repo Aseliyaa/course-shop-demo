@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="en"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <title>Create Course</title>
+</head>
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0" layout:fragment="body">
+    <section class="py-5">
+        <div class="container">
+            <form role="form" method="post" th:action="@{/admin/{categoryId}/createCourse(categoryId=${category.id})}" th:object="${course}">
+                <div class="form-row">
+                    <h2 class="fw-bolder">Create Course</h2>
+                    <div class="form-group col-md-6">
+                        <label for="courseName">Name</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="courseName"
+                                name="courseName"
+                                placeholder="Course name"
+                                th:field="*{courseName}"
+                                required
+                        >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="description">Description</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="description"
+                                name="description"
+                                placeholder="Description"
+                                th:field="*{description}"
+                                required
+                        >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="price">Price</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="price"
+                                name="price"
+                                placeholder="Price"
+                                th:field="*{price}"
+                                required
+                        >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="imgUrl">Image URL</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="imgUrl"
+                                name="imgUrl"
+                                placeholder="https://...."
+                                th:field="*{imgUrl}"
+                                required
+                        >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="rating">Rate</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="rating"
+                                name="rating"
+                                placeholder="Rate"
+                                th:field="*{rating}"
+                                required
+                        >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="duration">Duration</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="duration"
+                                name="duration"
+                                placeholder="Duration"
+                                th:field="*{duration}"
+                                required
+                        >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="targetLevel">Level</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="targetLevel"
+                                name="targetLevel"
+                                placeholder="Level"
+                                th:field="*{targetLevel}"
+                                required
+                        >
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Create</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>

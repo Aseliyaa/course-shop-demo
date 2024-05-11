@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body class="d-flex flex-column">
+<main class="flex-shrink-0" layout:fragment="body">
+    <section class="py-5 bg-light" id="scroll-target">
+        <div class="container px-5 my-2">
+            <div class="py-5 px-4 px-md-5 mb-5">
+                <div class="row gx-5 justify-content-center">
+
+                    <div class="col-lg-8 col-xl-6 text-center">
+                        <h2 class="fw-bolder">Admin Panel</h2>
+                        <div class="d-flex flex-row justify-content-between gx-3">
+                            <div>
+                                <button type="button" id="categoriesButton" onclick="function showCategories() {
+                                     document.getElementById('categoriesBlock').style.display = 'block';
+                                     document.getElementById('coursesBlock').style.display = 'none';
+                                     document.getElementById('consultBlock').style.display = 'none';
+                                     document.getElementById('coursesButton').className = 'btn btn-secondary';
+                                     document.getElementById('categoriesButton').className = 'btn btn-primary';
+                                     document.getElementById('consultButton').className = 'btn btn-secondary';
+                                }
+                                showCategories()" class="btn btn-primary">All
+                                    Categories
+                                </button>
+                            </div>
+                            <div>
+                                <button type="button" id="coursesButton" onclick="function showCourses() {
+                                     document.getElementById('coursesBlock').style.display = 'block';
+                                     document.getElementById('categoriesBlock').style.display = 'none';
+                                     document.getElementById('consultBlock').style.display = 'none';
+                                     document.getElementById('coursesButton').className = 'btn btn-primary';
+                                     document.getElementById('categoriesButton').className = 'btn btn-secondary';
+                                     document.getElementById('consultButton').className = 'btn btn-secondary';
+                                }
+                                showCourses()" class="btn btn-secondary">All
+                                    Courses
+                                </button>
+                            </div>
+                            <div>
+                                <button type="button" id="consultButton" onclick="function showForms() {
+                                     document.getElementById('coursesBlock').style.display = 'none';
+                                     document.getElementById('categoriesBlock').style.display = 'none';
+                                     document.getElementById('consultBlock').style.display = 'block';
+                                     document.getElementById('coursesButton').className = 'btn btn-secondary';
+                                     document.getElementById('categoriesButton').className = 'btn btn-secondary';
+                                     document.getElementById('consultButton').className = 'btn btn-primary';
+                                }
+                                showForms()" class="btn btn-secondary">Consultation Forms
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="categoriesBlock" style="display: block;">
+                    <div class="d-flex flex-column "
+                         th:each="category: ${categories}">
+
+                        <div class="row align-items-center my-2 border border-dark bg-white rounded">
+                            <div class="col-lg-3">
+                                <img class="img-fluid" th:src="${category.imgUrl}" alt="img"/>
+                            </div>
+                            <div class="col-lg-5">
+                                <h3 class="fw-normal" th:text="${category.name}"></h3>
+                                <p class="fw-light" th:text="'Id: ' + ${category.id}"></p>
+                            </div>
+                            <div class="col-lg-4">
+                                <div>
+                                    <a th:href="@{/categories/{categoryId}(categoryId=${category.id})}"
+                                       type="button"
+                                       class="btn btn-primary">View</a>
+                                    <a th:href="@{/admin/categories/{categoryId}/edit(categoryId=${category.id})}"
+                                       type="button"
+                                       class="btn btn-primary">Edit</a>
+                                </div>
+                                <form th:action="@{/admin/{categoryId}/delete(categoryId=${category.id})}"
+                                      method="post">
+                                    <button class="btn btn-danger mt-1" type="submit">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="coursesBlock" style="display: none;">
+                    <div class="d-flex flex-column " th:each="course: ${courses}">
+
+                        <div class="row align-items-center my-2 border border-dark bg-white rounded">
+                            <div class="col-lg-3">
+                                <img class="img-fluid" th:src="${course.imgUrl}" alt="img"/>
+                            </div>
+                            <div class="col-lg-5">
+                                <h3 class="fw-normal" th:text="${course.courseName}"></h3>
+                                <p class="fw-light" th:text="'Id: ' + ${course.id}"></p>
+                            </div>
+                            <div class="col-lg-4">
+                                <div>
+                                    <a th:href="@{/categories/{categoryId}/{courseId}(categoryId=${course.getCategories().getFirst().id},courseId=${course.id})}"
+                                       type="button"
+                                       class="btn btn-primary">View</a>
+                                    <a th:href="@{/admin/categories/{categoryId}/{courseId}/edit(categoryId=${course.getCategories().getFirst().id},courseId=${course.id})}"
+                                       type="button"
+                                       class="btn btn-primary">Edit</a>
+                                </div>
+                                <div class="dropdown mt-1">
+                                    <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton"
+                                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Delete
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                        <li>
+                                            <form method="post" class="dropdown-item"
+                                                  th:action="@{/admin/{categoryId}/{courseId}/deleteFromCategory(categoryId=${course.getCategories().getFirst().id},courseId=${course.id})}">
+                                                <button class="btn btn-secondary" type="submit">from category</button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <form method="post" class="dropdown-item"
+                                                  th:action="@{/admin/{categoryId}/{courseId}/delete(categoryId=${course.getCategories().getFirst().id},courseId=${course.id})}">
+                                                <button class="btn btn-secondary mt-1" type="submit">everywhere</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="consultBlock" style="display: none;">
+                    <div class="d-flex flex-column " th:each="form: ${forms}">
+                        <div class="row bg-dark justify-content-center align-items-center my-2 border border-dark  rounded">
+                            <div class="col-lg-3 p-1 ">
+                                <p class="fw-light text-white" th:text="'Name: ' + ${form.fullname}"></p>
+                                <p class="fw-light text-white" th:text="'Email: ' + ${form.email}"></p>
+                                <p class="fw-light text-white" th:text="'Phone: ' + ${form.phone}"></p>
+                                <p class="fw-light text-white" th:text="'Course Id: ' + ${form.getCourse().id}"></p>
+                            </div>
+                            <div class="col-lg-7 p-1 ">
+                                <textarea class="form-control" rows="7" readonly th:text="${form.message}"></textarea>
+                            </div>
+                            <div class="col-lg-2 p-1 ">
+                                    <form th:action="@{/admin/{formId}/deleteForm(formId=${form.id})}"
+                                          method="post">
+                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                    </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

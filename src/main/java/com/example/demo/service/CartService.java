@@ -11,4 +11,6 @@ public interface CartService{
     void removeCourse(Course course) throws CartServiceException;
     Cart getCartByLogin(String login) throws CartServiceException;
     Double getTotal(Cart cart) throws CartServiceException;
+
+    void deleteCourseFromUserCart(String login, long courseId) throws CartServiceException;
 }

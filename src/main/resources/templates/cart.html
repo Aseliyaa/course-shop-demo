@@ -41,6 +41,9 @@
                                 th:text="${course.courseName}"></h2>
                         </a>
                         <p class="lead fw-normal text-muted mb-0" th:text="'Price: ' + ${course.price} + '$'"></p>
+                        <form method="post" th:action="@{cart/{courseId}/delete(courseId=${course.id})}">
+                            <input type="submit" class="btn btn-danger" value="Delete"/>
+                        </form>
                     </div>
                 </div>
             </div>

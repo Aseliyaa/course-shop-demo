@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.exception.CategoryServiceException;
 import com.example.demo.exception.CommonServiceException;
 import com.example.demo.model.Category;
+import com.example.demo.model.Course;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.CommonService;
@@ -39,7 +40,7 @@ public class CategoryServiceImpl extends CommonService<Category> implements Cate
 
     @Override
     public Category update(Category category) throws CommonServiceException {
-        return null;
+        return categoryRepository.save(category);
     }
 
     @Override
@@ -54,5 +55,45 @@ public class CategoryServiceImpl extends CommonService<Category> implements Cate
     @Override
     public Category findCategoryById(long id) throws CategoryServiceException {
         return categoryRepository.findById(id).get();
+    }
+
+    @Override
+    public void updateCategory(Category category) throws CategoryServiceException {
+        try {
+            update(category);
+        } catch (CommonServiceException e) {
+            throw new CategoryServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Category> searchCategories(String query) throws CategoryServiceException {
+        return categoryRepository.searchCategories(query);
+    }
+
+    @Override
+    public void saveCategory(Category category) throws CategoryServiceException {
+        try {
+            save(category);
+        } catch (CommonServiceException e) {
+            throw new CategoryServiceException(e);
+        }
+    }
+
+    @Override
+    public void addCourseToCategory(Category category, Course course) throws CategoryServiceException {
+        category.getCourses().add(course);
+//        course.getCategories().add(category);
+        categoryRepository.save(category);
+
+    }
+
+    @Override
+    public void deleteCategory(Category category) throws CategoryServiceException {
+        try{
+            delete(category);
+        } catch (CommonServiceException e) {
+            throw new CategoryServiceException(e);
+        }
     }
 }

@@ -61,6 +61,9 @@ public class UserServiceImpl extends CommonService<User> implements UserService 
             ) {
                 logger.log(Level.INFO, "+++++++++++> Data Is Valid");
 
+                Role role = roleRepository.findByName("USER");
+                user.setRoles(Collections.singletonList(role));
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
                 save(user);
                 logger.log(Level.INFO, "------------>" + user.getUsername() + " is added");
                 match = true;
@@ -108,9 +111,7 @@ public class UserServiceImpl extends CommonService<User> implements UserService 
 
     @Override
     public User save(User user) throws CommonServiceException {
-        Role role = roleRepository.findByName("USER");
-        user.setRoles(Collections.singletonList(role));
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         return userRepository.save(user);
     }
 

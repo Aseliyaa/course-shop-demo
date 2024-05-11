@@ -1,5 +1,7 @@
 package com.example.demo.security;
 
+import com.example.demo.model.Role;
+import com.example.demo.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,10 +17,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig {
     private final CustomUserDetailsService userDetailsService;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public SecurityConfig(CustomUserDetailsService userDetailsService) {
+    public SecurityConfig(CustomUserDetailsService userDetailsService, RoleRepository roleRepository) {
         this.userDetailsService = userDetailsService;
+        this.roleRepository = roleRepository;
     }
 
     @Bean
@@ -28,9 +32,11 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        Role role = roleRepository.findByName("ADMIN");
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login", "/register", "/categories", "/css/**", "/js/**")
+                .antMatchers("/admin/**").hasAnyAuthority(role.getName())
+                .anyRequest()
                 .permitAll()
                 .and()
                 .formLogin(form -> form

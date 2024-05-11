@@ -74,4 +74,21 @@ public class CartServiceImpl implements CartService {
         }
         return total;
     }
+
+    @Override
+    public void deleteCourseFromUserCart(String login, long courseId) throws CartServiceException {
+        User user = userRepository.findByLogin(login);
+        Cart cart = user.getCart();
+        List<Course> courses = cart.getCourses();
+        for(Course course: courses){
+            if(course.getId() == courseId){
+                courses.remove(course);
+                break;
+            }
+        }
+        cart.setCourses(courses);
+        cartRepository.save(cart);
+        user.setCart(cart);
+        userRepository.save(user);
+    }
 }
