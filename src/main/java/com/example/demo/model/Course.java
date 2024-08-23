@@ -21,7 +21,7 @@ public class Course extends AbstractModel {
     private long id;
     private String courseName;
     private String description;
-    private String price;
+    private int price;
     private String imgUrl;
     private String rating;
     private String duration;
@@ -34,4 +34,7 @@ public class Course extends AbstractModel {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<ConsultationForm> consultationForms;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Order> orders;
 }

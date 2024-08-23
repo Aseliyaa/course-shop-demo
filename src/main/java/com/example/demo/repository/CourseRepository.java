@@ -10,4 +10,7 @@ import java.util.List;
 public interface CourseRepository extends JpaRepository<Course, Long> {
     @Query("SELECT c from Course c WHERE c.courseName LIKE CONCAT('%', :query, '%')")
     List<Course> searchCourses(String query);
+
+    List<Course> findCoursesByTargetLevel(String targetLevel);
+
 }

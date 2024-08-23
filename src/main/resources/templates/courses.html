@@ -10,11 +10,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <title>Categories</title>
+    <title>Courses</title>
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
-    <!--    &lt;!&ndash; Core theme CSS (includes Bootstrap)&ndash;&gt;-->
-    <!--    <link href="../static/css/styles.css" rel="stylesheet"/>-->
+    <!-- Core theme CSS (includes Bootstrap)-->
     <link th:href="@{/css/styles.css}" rel="stylesheet"/>
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
 </head>
@@ -22,16 +21,15 @@
 <body class="d-flex flex-column h-100">
 
 <main class="flex-shrink-0" layout:fragment="body">
-    <!-- Blog preview section-->
+
     <section class="py-5">
         <div class="container px-5 my-1">
             <div class="row gx-5 justify-content-center">
                 <div class="col-lg-8 col-xl-6">
                     <div class="text-center">
-                        <h2 class="fw-bolder" th:text="${category.name}"></h2>
-                        <p class="lead fw-normal text-muted">Choose your course</p>
-                        <form class="d-flex mt-1" th:action="@{/{categoryId}/courses/search(categoryId=${category.id})}"
-                              role="search">
+                        <h2 class="fw-bolder">Choose Course</h2>
+                        <p class="lead fw-normal text-muted ">Start learning something new</p>
+                        <form class="d-flex mt-1" th:action="@{/courses/search}" role="search">
                             <input class="form-control me-2" type="search" placeholder="Search" name="query"
                                    aria-label="Search">
                             <button class="btn btn-outline-primary" type="submit">Search</button>
@@ -39,6 +37,29 @@
                     </div>
                 </div>
             </div>
+            <div class="d-flex flex-row justify-content-between mt-2">
+                <div>
+                    <form method="get" th:action="@{/courses/byLevel}" id="filterLevelForm">
+                        <select name="level" class="form-select" id="levelSelect">
+                            <th:block th:each="level: ${levels}">
+                                <option th:value="${level}" th:text="${level}"></option>
+                            </th:block>
+                        </select>
+                    </form>
+                </div>
+
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('#levelSelect').change(function () {
+                            $('#filterLevelForm').submit();
+                        });
+                    });
+                </script>
+
+            </div>
+
+
             <div class="row gx-5 mt-2">
                 <div class="col-lg-4 mb-5" th:each="course :${courses}">
                     <div class="card h-100 shadow border-0">
@@ -53,11 +74,11 @@
                                 <i class="bi bi-star-fill text-warning"></i>
                             </div>
                             <p class="card-text mb-0" th:text="'Level: ' + ${course.targetLevel}"></p>
-                            <a th:href="@{/categories/{categoryId}/{courseId}(categoryId=${category.id},courseId=${course.id})}"
+                            <a th:href="@{/categories/{categoryId}/{courseId}(categoryId=${course.getCategories().getFirst().id},courseId=${course.id})}"
                                type="button"
                                class="btn btn-primary">View</a>
                             <a sec:authorize="hasAuthority('ADMIN')"
-                               th:href="@{/admin/categories/{categoryId}/{courseId}/edit(categoryId=${category.id},courseId=${course.id})}"
+                               th:href="@{/admin/categories/{categoryId}/{courseId}/edit(categoryId=${course.getCategories().getFirst().id},courseId=${course.id})}"
                                type="button"
                                class="btn btn-primary">Edit</a>
 
@@ -69,13 +90,13 @@
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                                     <li>
                                         <form method="post" class="dropdown-item"
-                                              th:action="@{/admin/{categoryId}/{courseId}/deleteFromCategory(categoryId=${category.id},courseId=${course.id})}">
+                                              th:action="@{/admin/{categoryId}/{courseId}/deleteFromCategory(categoryId=${course.getCategories().getFirst().id},courseId=${course.id})}">
                                             <button class="btn btn-secondary" type="submit">from category</button>
                                         </form>
                                     </li>
                                     <li>
                                         <form method="post" class="dropdown-item"
-                                              th:action="@{/admin/{categoryId}/{courseId}/delete(categoryId=${category.id},courseId=${course.id})}">
+                                              th:action="@{/admin/{categoryId}/{courseId}/delete(categoryId=${course.getCategories().getFirst().id},courseId=${course.id})}">
                                             <button class="btn btn-secondary mt-1" type="submit">everywhere</button>
                                         </form>
                                     </li>
@@ -91,7 +112,7 @@
 
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
 </body>
 </html>
-

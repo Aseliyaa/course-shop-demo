@@ -51,4 +51,7 @@ public class User extends AbstractModel {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ConsultationForm> consultationForms;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Order order;
 }

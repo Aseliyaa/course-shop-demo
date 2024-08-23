@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@SpringBootApplication(
-//        exclude = { SecurityAutoConfiguration.class }
-)
+@SpringBootApplication()
 @RestController
 public class Demo1Application implements WebMvcConfigurer {
 
@@ -24,6 +22,4 @@ public class Demo1Application implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
     }
-
-
 }

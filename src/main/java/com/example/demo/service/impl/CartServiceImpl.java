@@ -62,20 +62,6 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Double getTotal(Cart cart) throws CartServiceException {
-        double total = 0;
-        List<Course> courseList = cart.getCourses();
-        try {
-            for (Course course : courseList) {
-                total += Double.parseDouble(course.getPrice());
-            }
-        } catch (NumberFormatException e){
-            throw new CartServiceException(e);
-        }
-        return total;
-    }
-
-    @Override
     public void deleteCourseFromUserCart(String login, long courseId) throws CartServiceException {
         User user = userRepository.findByLogin(login);
         Cart cart = user.getCart();

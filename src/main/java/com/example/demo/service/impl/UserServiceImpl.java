@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -110,6 +111,29 @@ public class UserServiceImpl extends CommonService<User> implements UserService 
     }
 
     @Override
+    public User findById(long userId) throws UserServiceException {
+        return userRepository.findById(userId).get();
+    }
+
+    @Override
+    public void deleteUser(User user) throws UserServiceException {
+        try {
+            delete(user);
+        } catch (CommonServiceException e) {
+            throw new UserServiceException(e);
+        }
+    }
+
+    @Override
+    public List<User> findAllUsers() throws UserServiceException {
+        try {
+            return findAll();
+        } catch (CommonServiceException e) {
+            throw new UserServiceException(e);
+        }
+    }
+
+    @Override
     public User save(User user) throws CommonServiceException {
 
         return userRepository.save(user);
@@ -117,7 +141,8 @@ public class UserServiceImpl extends CommonService<User> implements UserService 
 
     @Override
     public boolean delete(User user) throws CommonServiceException {
-        return false;
+        userRepository.delete(user);
+        return true;
     }
 
     @Override

@@ -113,4 +113,16 @@ public class CategoryController {
         categoryService.deleteCategory(category);
         return "redirect:/categories";
     }
+
+    @GetMapping("/admin/createCategory")
+    public String createCategoryPAge(Model model) {
+        Category category = new Category();
+        model.addAttribute("category", category);
+        return "create-category";
+    }
+    @PostMapping("/admin/createCategory")
+    public String createCategory(@ModelAttribute("category") Category category) throws CategoryServiceException {
+        categoryService.saveCategory(category);
+        return "redirect:/categories";
+    }
 }

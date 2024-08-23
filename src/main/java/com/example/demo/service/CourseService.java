@@ -27,4 +27,11 @@ public interface CourseService {
 
 
     List<Course> searchCoursesForCategory(String query, Category category) throws CourseServiceException;
+
+    List<Course> searchCourses(String query) throws CourseServiceException;
+
+    List<String> findAllTargetLevels() throws CourseServiceException;
+
+    List<Course> findByLevel(String level) throws CourseServiceException;
+
 }

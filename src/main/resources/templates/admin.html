@@ -13,22 +13,24 @@
 <main class="flex-shrink-0" layout:fragment="body">
     <section class="py-5 bg-light" id="scroll-target">
         <div class="container px-5 my-2">
-            <div class="py-5 px-4 px-md-5 mb-5">
+            <div class="py-5 px-2 px-md-5 mb-5">
                 <div class="row gx-5 justify-content-center">
 
                     <div class="col-lg-8 col-xl-6 text-center">
                         <h2 class="fw-bolder">Admin Panel</h2>
-                        <div class="d-flex flex-row justify-content-between gx-3">
+                        <div class="d-flex flex-row justify-content-between gx-1">
                             <div>
                                 <button type="button" id="categoriesButton" onclick="function showCategories() {
                                      document.getElementById('categoriesBlock').style.display = 'block';
                                      document.getElementById('coursesBlock').style.display = 'none';
                                      document.getElementById('consultBlock').style.display = 'none';
+                                     document.getElementById('usersBlock').style.display = 'none'
                                      document.getElementById('coursesButton').className = 'btn btn-secondary';
                                      document.getElementById('categoriesButton').className = 'btn btn-primary';
                                      document.getElementById('consultButton').className = 'btn btn-secondary';
+                                     document.getElementById('usersButton').className = 'btn btn-secondary'
                                 }
-                                showCategories()" class="btn btn-primary">All
+                                showCategories()" class="btn btn-primary">
                                     Categories
                                 </button>
                             </div>
@@ -37,11 +39,13 @@
                                      document.getElementById('coursesBlock').style.display = 'block';
                                      document.getElementById('categoriesBlock').style.display = 'none';
                                      document.getElementById('consultBlock').style.display = 'none';
+                                     document.getElementById('usersBlock').style.display = 'none'
                                      document.getElementById('coursesButton').className = 'btn btn-primary';
                                      document.getElementById('categoriesButton').className = 'btn btn-secondary';
                                      document.getElementById('consultButton').className = 'btn btn-secondary';
+                                     document.getElementById('usersButton').className = 'btn btn-secondary'
                                 }
-                                showCourses()" class="btn btn-secondary">All
+                                showCourses()" class="btn btn-secondary">
                                     Courses
                                 </button>
                             </div>
@@ -50,11 +54,27 @@
                                      document.getElementById('coursesBlock').style.display = 'none';
                                      document.getElementById('categoriesBlock').style.display = 'none';
                                      document.getElementById('consultBlock').style.display = 'block';
+                                     document.getElementById('usersBlock').style.display = 'none'
                                      document.getElementById('coursesButton').className = 'btn btn-secondary';
                                      document.getElementById('categoriesButton').className = 'btn btn-secondary';
                                      document.getElementById('consultButton').className = 'btn btn-primary';
+                                     document.getElementById('usersButton').className = 'btn btn-secondary'
                                 }
-                                showForms()" class="btn btn-secondary">Consultation Forms
+                                showForms()" class="btn btn-secondary">Forms
+                                </button>
+                            </div>
+                            <div>
+                                <button type="button" id="usersButton" onclick="function showUsers() {
+                                     document.getElementById('coursesBlock').style.display = 'none';
+                                     document.getElementById('categoriesBlock').style.display = 'none';
+                                     document.getElementById('consultBlock').style.display = 'none';
+                                     document.getElementById('usersBlock').style.display = 'block'
+                                     document.getElementById('coursesButton').className = 'btn btn-secondary';
+                                     document.getElementById('categoriesButton').className = 'btn btn-secondary';
+                                     document.getElementById('consultButton').className = 'btn btn-secondary';
+                                     document.getElementById('usersButton').className = 'btn btn-primary'
+                                }
+                                showUsers()" class="btn btn-secondary">Users
                                 </button>
                             </div>
                         </div>
@@ -149,14 +169,34 @@
                                 <textarea class="form-control" rows="7" readonly th:text="${form.message}"></textarea>
                             </div>
                             <div class="col-lg-2 p-1 ">
-                                    <form th:action="@{/admin/{formId}/deleteForm(formId=${form.id})}"
-                                          method="post">
-                                        <button class="btn btn-danger" type="submit">Delete</button>
-                                    </form>
+                                <form th:action="@{/admin/{formId}/deleteForm(formId=${form.id})}"
+                                      method="post">
+                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div id="usersBlock" style="display: none;">
+                    <div class="d-flex flex-column " th:each="user: ${users}">
+
+                        <div class="row align-items-center my-2 border border-dark bg-white rounded">
+                            <div class="col-lg-8">
+                                <p class="fw-normal" th:text="'Id: ' + ${user.id}"></p>
+                                <p class="fw-normal" th:text="'Username: ' + ${user.username}"></p>
+                                <p class="fw-normal" th:text="'Email: ' + ${user.login}"></p>
+                            </div>
+                            <div class="col-lg-4">
+                                <form th:action="@{/admin/{userId}/deleteUser(userId=${user.id})}"
+                                      method="post">
+                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>

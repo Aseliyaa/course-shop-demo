@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml'
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="en"
+      layout:decorate="~{layout}"
+      xmlns:th='http://www.thymeleaf.org'>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Result</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<main layout:fragment="body">
+    <section class="py-2">
+        <h3 th:if='${error}' th:text='${error}' style='color: red;'></h3>
+        <div class="d-flex justify-content-center flex-column text-center p-2 g-1" th:unless='${error}'>
+            <h3 class="fw-bolder" style='color: green;'>Success!</h3>
+            <div class="text-center fw-normal">Id.: <span th:text='${id}'/></div>
+            <div class="text-center fw-normal">Status: <span th:text='${status}'/></div>
+            <div class="text-center fw-normal">Charge id.: <span th:text='${chargeId}'/></div>
+            <div class="text-center fw-normal">Balance transaction id.: <span th:text='${balance_transaction}'/></div>
+            <a th:href="@{/categories}">Main page</a>
+        </div>
+    </section>
+</main>
+</body>
+</html>

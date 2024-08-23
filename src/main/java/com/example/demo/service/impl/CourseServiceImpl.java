@@ -160,4 +160,24 @@ public class CourseServiceImpl extends CommonService<Course> implements CourseSe
         return searchCourses;
     }
 
+    @Override
+    public List<Course> searchCourses(String query) throws CourseServiceException {
+        return courseRepository.searchCourses(query);
+    }
+
+    @Override
+    public List<String> findAllTargetLevels() throws CourseServiceException {
+        List<Course> courses = courseRepository.findAll();
+        List<String> levels = new ArrayList<>();
+        for (Course c: courses){
+            levels.add(c.getTargetLevel());
+        }
+        return levels;
+    }
+
+    @Override
+    public List<Course> findByLevel(String level) throws CourseServiceException {
+        return courseRepository.findCoursesByTargetLevel(level);
+    }
+
 }

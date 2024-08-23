@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public class PasswordValidator implements Serializable {
     private static String message = "";
-    static final int MAX = 8;
-    static final int MIN_Uppercase = 2;
-    static final int MIN_Lowercase = 2;
-    static final int NUM_Digits = 2;
+    static final int MAX = 6;
+    static final int MIN_Uppercase = 1;
+    static final int MIN_Lowercase = 1;
+    static final int NUM_Digits = 1;
 
     public static String getMessage() {
         return message;
